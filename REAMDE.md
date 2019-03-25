@@ -47,3 +47,12 @@ Dev notes:
     ~~~
     http://127.0.0.1:8000/api/docs
     ~~~
+- To run tests:
+    1. Grant previlegies to create database to our 
+    database user (olxer, according to .env file)
+        ~~~
+        $ sudo su - postgres
+        $ psql
+        $ ALTER USER olxer CREATEDB;
+        ~~~
+    2. Run tests
