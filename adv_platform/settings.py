@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
     'adv_board',
+    'mptt',
 ]
 
 MIDDLEWARE = [
