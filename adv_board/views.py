@@ -33,7 +33,7 @@ class AnnouncementViewset(viewsets.ModelViewSet):
     serializer_class = AnnouncementSerializer
 
 
-class CategoryView(viewsets.ViewSet):
+class CategoryViewset(viewsets.ViewSet):
     """
     retrieve:
         Returns a specific category with its children and parent

@@ -12,16 +12,16 @@ class BaseViewTest(APITestCase):
     client = APIClient()
     fixtures = ('category.json', )
 
-    # def setUp(self):
-        # add test data
+    def setUp(self):
+        pass
 
 
-class GetCategorysTest(BaseViewTest):
+class GetCategoriesTest(BaseViewTest):
 
     def test_get_all_categories(self):
         """
-        This test ensures that all songs added in the setUp method
-        exist when we make a GET request to the songs/ endpoint
+        This test ensures that all categories imported via fixtures
+        exist when we make a GET request to the category/ endpoint
         """
         # hit the API endpoint
         response = self.client.get(
@@ -30,19 +30,19 @@ class GetCategorysTest(BaseViewTest):
         # fetch the data from db
         expected = Category.objects.all()
         serialized = CategorySerializer(expected, many=True)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serialized.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_all_leaf_categories(self):
         """
-        This test ensures that all songs added in the setUp method
-        exist when we make a GET request to the songs/ endpoint
+        This test ensures that all leaf-categories imported via fixtures
+        exist when we make a GET request to the category/leaves/ endpoint
         """
         # hit the API endpoint
         response = self.client.get(
             reverse("category-leaves", kwargs={})
         )
-        # fetch the data from db
+        # leaf node can be reckognized as left == right - 1
         expected = Category.objects.filter(lft=F('rght')-1)
         serialized = CategorySerializer(expected, many=True)
         self.assertEqual(response.data, serialized.data)

@@ -7,7 +7,6 @@ from .models import Category
 class AnnouncementSerializer(serializers.ModelSerializer):
 
     category = serializers.SlugRelatedField(
-        many=True,
         slug_field='name',
         queryset=Category.objects.all(),
      )
