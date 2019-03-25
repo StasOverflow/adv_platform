@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5270649f-df88-4931-b1c3-4d15da76927e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/adv_board/tests/test_announcements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adv_board/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/adv_board/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_board/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/adv_board/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_board/tests/test_categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/adv_board/tests/test_categories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_board/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adv_board/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_board/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adv_board/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/adv_board/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-100">
-              <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+            <state relative-caret-position="945">
+              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -33,20 +28,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/adv_board/tests/test_categories.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
+            <state relative-caret-position="-100">
               <caret line="45" column="59" lean-forward="true" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
-              <folding>
-                <element signature="e#1#43#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/adv_board/tests/test_announcements.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="61" column="79" selection-start-line="61" selection-start-column="79" selection-end-line="61" selection-end-column="79" />
+            <state relative-caret-position="365">
+              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -93,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/adv_board/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
-              <caret line="23" column="47" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="47" />
+              <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -170,10 +162,10 @@
         <option value="$PROJECT_DIR$/adv_board/tests/test_api.py" />
         <option value="$PROJECT_DIR$/adv_board/views.py" />
         <option value="$PROJECT_DIR$/adv_board/urls.py" />
-        <option value="$PROJECT_DIR$/adv_board/models.py" />
         <option value="$PROJECT_DIR$/adv_board/serializers.py" />
         <option value="$PROJECT_DIR$/adv_board/tests/test_categories.py" />
         <option value="$PROJECT_DIR$/adv_board/tests/test_announcements.py" />
+        <option value="$PROJECT_DIR$/adv_board/models.py" />
       </list>
     </option>
   </component>
@@ -212,11 +204,6 @@
               <item name="adv_board" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="adv_platform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="adv_platform" type="462c0819:PsiDirectoryNode" />
-              <item name="adv_platform" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -228,12 +215,12 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/adv_platform" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/adv_board/fixtures" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/adv_platform" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -389,9 +376,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/adv_board/tests.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/adv_board/tests.py" />
     <entry file="file://$PROJECT_DIR$/adv_board/fixtures/superuser.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -456,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/adv_board/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-100">
-          <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+        <state relative-caret-position="945">
+          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>
@@ -484,26 +469,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/adv_board/tests/test_categories.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="45" column="59" lean-forward="true" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
-          <folding>
-            <element signature="e#1#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/adv_board/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="47" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/mptt/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6115">
@@ -511,12 +476,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/adv_board/tests/test_categories.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="45" column="59" lean-forward="true" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/adv_board/tests/test_announcements.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="61" column="79" selection-start-line="61" selection-start-column="79" selection-end-line="61" selection-end-column="79" />
+        <state relative-caret-position="365">
+          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/adv_board/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
