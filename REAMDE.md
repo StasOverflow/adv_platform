@@ -43,3 +43,7 @@ Dev notes:
     login: 'admin' 
      pass: 'super_admin'
    ~~~
+- Site API can be accessed via:
+    ~~~
+    http://127.0.0.1:8000/api/docs
+    ~~~

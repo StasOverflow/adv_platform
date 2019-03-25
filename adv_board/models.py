@@ -19,7 +19,8 @@ class Announcement(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     bargain = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
-    category = TreeForeignKey(Category, verbose_name='parent category', related_name='works', on_delete=models.CASCADE)
+    category = TreeForeignKey('Category', verbose_name='parent category',
+                              related_name='adv', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
