@@ -6,8 +6,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from django.db.models import F
-from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
-from django.core.validators import ValidationError
+from rest_framework.serializers import ValidationError
 
 
 class AnnouncementViewset(viewsets.ModelViewSet):
@@ -60,33 +59,15 @@ class AnnouncementViewset(viewsets.ModelViewSet):
                 """
                 Only a ceratain amout of images can be applied to an announcement
                 """
-                path_list = [arg['path'] for arg in request.data if 'path' in arg]
-                images = ImagePath.objects.filter(announcement_id=kwargs['pk'])
-                image_paths = images.values_list('path', flat=True).order_by('id')
-                # check if new list of urls contains any and not exceeding the limit
-                if len(path_list) > ANNOUNCEMENT_IMAGE_LIMIT:
-                    return Response("{ 'error_message': 'Inserting {} images not allowed, "
-                                    "max {}'".format(len(path_list), ANNOUNCEMENT_IMAGE_LIMIT),
+                serializer = AnnouncementSerializer
+                try:
+                    data = serializer.multiple_image_instances_prepare(request.data, pk=kwargs['pk'])
+                    for instance in data:
+                        instance.save()
+                except ValidationError as e:
+                    return Response("{'error_message': '{}'".format(e),
                                     status=status.HTTP_400_BAD_REQUEST)
-                elif not len(path_list):
-                    return Response("{ 'error_message': 'empty request'".format(
-                                    len(path_list), ANNOUNCEMENT_IMAGE_LIMIT),
-                                    status=status.HTTP_400_BAD_REQUEST)
-                # check if url ends with image extension
-                for path in path_list:
-                    if not any([path.endswith(e) for e in ImagePath.valid_extensions]):
-                        return Response("{'error_message': 'Unsupported image format'",
-                                        status=status.HTTP_400_BAD_REQUEST)
-                    image_list = list()
-                    if path not in image_paths:
-                        image_list.append(ImagePath.objects.create(announcement_id=kwargs['pk'], path=path))
-                    else:
-                        # Duplicate images won't be inserted again
-                        pass
-                queryset = ImagePath.objects.filter(announcement_id=kwargs['pk'])
-                serializer = ImageSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-
+                return Response(data, status=status.HTTP_200_OK)
             elif request.method == 'DELETE':
                 # Delete an entire collection of images per announcement
                 ImagePath.objects.filter(announcement_id=kwargs['pk']).delete()
