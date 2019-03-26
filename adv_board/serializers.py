@@ -1,10 +1,18 @@
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
-from .models import Announcement
-from .models import Category
+from .models import Announcement, Category, ImagePath
+
+
+class ImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImagePath
+        fields = ('path', )
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
+
+    images = ImageSerializer(many=True)
 
     category = serializers.SlugRelatedField(
         slug_field='name',
@@ -13,7 +21,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category')
+        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -32,5 +40,4 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'parent', 'children',)  # add here rest of the fields from model
-
+        fields = ('id', 'name', 'parent', 'children',)

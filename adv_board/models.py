@@ -1,5 +1,8 @@
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
+from mptt.models import MPTTModel, TreeForeignKey
+from django.core.validators import ValidationError
+
+from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
 
 
 class Category(MPTTModel):
@@ -25,3 +28,29 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ImagePath(models.Model):
+    valid_extensions = [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+    ]
+
+    path = models.URLField(max_length=150, blank=True)
+    announcement = models.ForeignKey('Announcement', on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return self.path
+
+    def clean(self):
+        if not any([self.path.endswith(e) for e in self.valid_extensions]):
+            raise ValidationError(
+                {'path': 'Unsupported image format'}
+            )
+        print(ImagePath.objects.filter(announcement=self.announcement).count())
+        if ImagePath.objects.filter(announcement=self.announcement).count() > ANNOUNCEMENT_IMAGE_LIMIT:
+            raise ValidationError(
+                {'path': 'Maximum images limit reached: ({})'.format(ANNOUNCEMENT_IMAGE_LIMIT)}
+            )

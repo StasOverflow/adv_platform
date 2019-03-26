@@ -1,8 +1,7 @@
 from rest_framework import viewsets, generics
-from .models import Announcement
-from .models import Category
-from .serializers import AnnouncementSerializer
-from .serializers import CategorySerializer
+from .models import Announcement, Category, ImagePath
+from .serializers import AnnouncementSerializer, CategorySerializer, ImageSerializer
+from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
@@ -31,6 +30,23 @@ class AnnouncementViewset(viewsets.ModelViewSet):
     """
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'images':
+            return ImageSerializer
+        return self.serializer_class
+
+    @action(detail=True, methods=['post', 'get'])
+    def images(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            queryset = ImagePath.objects.filter(announcement_id=kwargs['pk'])
+            serializer = ImageSerializer(queryset, many=True)
+            return Response(serializer.data)
+        elif request.method == 'POST':
+            return Response(request.data)
+        else:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 
 class CategoryViewset(viewsets.ViewSet):
