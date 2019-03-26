@@ -35,7 +35,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
                 len(path_list), ANNOUNCEMENT_IMAGE_LIMIT
             ))
         # check if url ends with image extension
-        print(path_list)
         image_list = list()
         for path in path_list:
             if not any([path.endswith(e) for e in ImagePath.valid_extensions]):
@@ -44,7 +43,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
                 ))
             if not for_update:
                 if path not in image_paths:
-                    print('path ok')
                     image_list.append(ImagePath(announcement_id=pk, path=path))
                 else:
                     # Duplicate images won't be inserted again

@@ -8,52 +8,7 @@ from ..serializers import CategorySerializer, AnnouncementSerializer
 from django.db.models import F
 import json
 
-
-SAMPLE_FILE_LIST = (
-    'https://farm3.staticflickr.com/2912/13981352255_fc59cfdba2_b.jpg',
-    'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/baboon.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/boat.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/sails.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/monarch.png',
-    'https://homepages.cae.wisc.edu/~ece533/images/peppers.png'
-)
-
-
-LOREM_CONTENT = '''Lorem ipsum dolor sit amet, consectetur adipiscing 
-                     elit. Quisque accumsan ullamcorper leo. Nullam malesuada 
-                     elit et laoreet consectetur. Proin sodales ullamcorper 
-                     laoreet. Mauris magna ligula, volutpat non est in, sodales 
-                     porta mauris. Fusce a convallis mi. Quisque rutrum nisl 
-                     quis imperdiet consequat. Nunc efficitur metus sed faucibus 
-                     dignissim. Donec pulvinar iaculis pharetra. Pellentesque habitant
-                     morbi tristique senectus et netus et malesuada fames ac turpis 
-                     egestas. Cras mauris lorem, tempus vitae metus nec, imperdiet 
-                     hendrerit nisi. Ut posuere cursus accumsan. Sed eget euismod tellus
-                     '''
-
-
-def create_adv(title='Test', category=None,
-               bargain=False, price=5551.55,
-               content=None, file_list=None, commit=True):
-
-    if file_list is None:
-        file_list = SAMPLE_FILE_LIST
-
-    if content is None:
-        content = LOREM_CONTENT
-
-    new_ann = Announcement.objects.create(title=title, category_id=category.id,
-                                          bargain=bargain, price=price, content=content)
-
-    image_list = list()
-    for path in file_list:
-        image_list.append(ImagePath(path=path, announcement_id=new_ann.id))
-
-    ImagePath.objects.bulk_create(image_list)
-
-    return new_ann
+from .test_utils import SAMPLE_FILE_LIST, LOREM_CONTENT, create_adv, SAMPLE_FILE_LIST_MODIFIED
 
 
 class BaseViewTest(APITestCase):
@@ -104,7 +59,9 @@ class GetAnnouncementsTest(BaseViewTest):
 
 
 class CreateNewAnnouncement(APITestCase):
-    """ Test module for inserting a new puppy """
+    """
+    Ensure that all crud operations for announcement works
+    """
 
     def setUp(self):
         self.client = APIClient()
@@ -114,35 +71,76 @@ class CreateNewAnnouncement(APITestCase):
         self.image_list = list()
         for image in SAMPLE_FILE_LIST:
             self.image_list.append({'path': image})
-        print(self.image_list)
+
+        self.image_list_modified = list()
+        for image in SAMPLE_FILE_LIST_MODIFIED:
+            self.image_list_modified.append({'path': image})
+
+        self.ad_title = "gourge lukas"
 
         self.valid_payload = {
-            "title": "george lukas",
+            "title": self.ad_title,
             "content": "impossibly dumb content",
             "price": 200,
             "bargain": True,
             "category": self.leaf_category.name,
             "images": self.image_list
         }
-        # self.invalid_payload = {
-        #     'name': '',
-        #     'age': 4,
-        #     'breed': 'Pamerion',
-        #     'color': 'White'
-        # }
-    """
-    Ensure that all crud operations for announcement works
-    """
-    def test_create_valid_puppy(self):
+
+        self.modified_payload = {
+            "title": self.ad_title,
+            "content": "impossibly dumb content, but modified",
+            "price": 2005,
+            "bargain": True,
+            "category": self.leaf_category.name,
+            "images": self.image_list
+        }
+
+        self.invalid_payload = {
+            "title": "",
+            "content": "impossibly dumb contentx2",
+            "price": 0,
+            "bargain": False,
+            "category": self.leaf_category.name,
+            "images": self.image_list
+        }
+
+    def test_create_adv(self):
+        ad_num = Announcement.objects.all().count()
         response = self.client.post(
             reverse('adv-list'),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
         )
-        print(json.dumps(self.valid_payload))
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        expected = Announcement.objects.get(title=self.ad_title)
+        serialized = AnnouncementSerializer(expected)
+        self.assertEqual(response.data, serialized.data)
+        self.assertEqual(ad_num + 1, Announcement.objects.all().count())
 
+    def test_create_invalid_adv(self):
+        response = self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.invalid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_modify_adv(self):
+        adv = create_adv(title=self.ad_title, category=self.leaf_category,
+                         bargain=False, price=5551.55)
+        expected = Announcement.objects.get(title=self.ad_title)
+        ad_num = Announcement.objects.all().count()
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': adv.id}),
+            data=json.dumps(self.modified_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(ad_num, Announcement.objects.all().count())
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # serialized = AnnouncementSerializer(expected)
+        # self.assertEqual(response.data, serialized.data)
+        # print(Announcement.objects.get(title=self.ad_title))
 
     # def test_create_new_adv_successful(self):
     #     ad_num = Announcement.objects.all().count()
