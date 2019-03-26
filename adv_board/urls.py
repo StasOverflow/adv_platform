@@ -11,6 +11,8 @@ router = routers.DefaultRouter()
 router.register(r'announcements', AnnouncementViewset, basename='adv')
 router.register(r'categories', CategoryViewset, basename='category')
 
+print(router.urls)
+
 urlpatterns = [
     path('docs/', schema_view),
     path('', include(router.urls), name='announcements'),

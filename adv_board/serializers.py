@@ -9,10 +9,15 @@ class ImageSerializer(serializers.ModelSerializer):
         model = ImagePath
         fields = ('path', )
 
+    def insertion_limit_validate(self):
+        # images
+
+
 
 class AnnouncementSerializer(serializers.ModelSerializer):
 
     images = ImageSerializer(many=True)
+    # images = serializers.HyperlinkedRelatedField(many=True, view_name='adv-images', read_only=True)
 
     category = serializers.SlugRelatedField(
         slug_field='name',
@@ -21,7 +26,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images')
+        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images',)
 
 
 class CategorySerializer(serializers.ModelSerializer):

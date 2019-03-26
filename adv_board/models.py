@@ -1,6 +1,8 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.core.validators import ValidationError
+from django.db.models.signals import pre_save
+
 
 from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
 
@@ -38,19 +40,26 @@ class ImagePath(models.Model):
         ".gif",
     ]
 
+    class Meta:
+        unique_together = ("path", "announcement")
+
     path = models.URLField(max_length=150, blank=True)
     announcement = models.ForeignKey('Announcement', on_delete=models.CASCADE, related_name='images')
+
+    # @classmethod
+    # def pre_save_handler(cls, sender, instance, **kwargs):
+    #     if not any([instance.path.endswith(e) for e in sender.valid_extensions]):
+    #         raise ValidationError(
+    #             {'path': 'Unsupported image format'}
+    #         )
+    #     print(ImagePath.objects.filter(announcement=instance.announcement).count())
+    #     if ImagePath.objects.filter(announcement=instance.announcement).count() >= ANNOUNCEMENT_IMAGE_LIMIT:
+    #         raise ValidationError(
+    #             {'path': 'Maximum images limit reached: ({})'.format(ANNOUNCEMENT_IMAGE_LIMIT)}
+    #         )
 
     def __str__(self):
         return self.path
 
-    def clean(self):
-        if not any([self.path.endswith(e) for e in self.valid_extensions]):
-            raise ValidationError(
-                {'path': 'Unsupported image format'}
-            )
-        print(ImagePath.objects.filter(announcement=self.announcement).count())
-        if ImagePath.objects.filter(announcement=self.announcement).count() > ANNOUNCEMENT_IMAGE_LIMIT:
-            raise ValidationError(
-                {'path': 'Maximum images limit reached: ({})'.format(ANNOUNCEMENT_IMAGE_LIMIT)}
-            )
+
+# pre_save.connect(ImagePath.pre_save_handler, sender=ImagePath)
