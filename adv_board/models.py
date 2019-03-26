@@ -26,7 +26,8 @@ class Announcement(models.Model):
     bargain = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     category = TreeForeignKey('Category', verbose_name='parent category',
-                              related_name='announcements', on_delete=models.CASCADE)
+                              related_name='announcements', on_delete=models.SET_NULL,
+                              blank=True, null=True)
 
     def __str__(self):
         return self.title
