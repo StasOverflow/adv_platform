@@ -17,7 +17,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.update({'beat_schedule': {
     'check_expiration_time': {
         'task': 'adv_board.tasks.flag_expired',
-        'schedule': crontab(minute='*/1'),  # minute='2, 35' << only 2nd and 35th minute of an hour
+        'schedule': crontab(hour='*/12'),  # minute='2, 35' << only 2nd and 35th minute of an hour
         'args': ('', )
         },
     }
