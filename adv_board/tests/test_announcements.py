@@ -46,15 +46,6 @@ class GetAnnouncementsTest(BaseViewTest):
     /api/announcements/all_admin    adv_board.views.AnnouncementListView
     /api/announcements\.<format>/   adv_board.views.AnnouncementViewset     adv-list
     """
-    def test_get_adv(self):
-        response = self.client.get(
-            reverse('adv-detail', kwargs={'pk': self.adv.id}),
-        )
-        expected = Announcement.objects.get(title=self.test_adv_name)
-        serialized = AnnouncementSerializer(expected)
-        self.assertEqual(response.data, serialized.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_get_adv_invalid(self):
         response = self.client.get(
             reverse('adv-detail', kwargs={'pk': self.adv.id+300}),
@@ -138,6 +129,7 @@ class CRUDAnnouncement(APITestCase):
 
     def setUp(self):
         self.user = create_user(username='Stas', password='ffaass123123g')
+        self.another_user = create_user(username='Vyacheslav', password='ffaass123123g')
         self.client = APIClient()
         base_category = Category.objects.filter(lft=F('rght')-1).first()
         self.leaf_category = Category.objects.create(name='brand new category', parent=base_category)
@@ -162,7 +154,7 @@ class CRUDAnnouncement(APITestCase):
         }
 
         self.modified_payload = {
-            "title": self.ad_title,
+            "title": "mooooody",
             "content": "impossibly dumb content, but modified",
             "price": 2005,
             "bargain": True,
@@ -195,52 +187,158 @@ class CRUDAnnouncement(APITestCase):
         self.assertEqual(response.data, serialized.data)
         self.assertEqual(ad_num + 1, Announcement.objects.all().count())
 
-    # def test_create_invalid_adv(self):
-    #     response = self.client.post(
-    #         reverse('adv-list'),
-    #         data=json.dumps(self.invalid_payload),
-    #         content_type='application/json'
-    #     )
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #
-    # def test_modify_adv(self):
-    #     ad_num_before = Announcement.objects.all().count()
-    #     adv = create_adv(title=self.ad_title, category=self.leaf_category,
-    #                      bargain=False, price=5551.55)
-    #     unmodified_paths_list = [image.path for image in adv.images.all()]
-    #     expected = Announcement.objects.get(title=self.ad_title)
-    #     ad_num = Announcement.objects.all().count()
-    #     self.assertEqual(ad_num_before + 1, ad_num)
-    #     response = self.client.put(
-    #         reverse('adv-detail', kwargs={'pk': adv.id}),
-    #         data=json.dumps(self.modified_payload),
-    #         content_type='application/json'
-    #     )
-    #     serialized = AnnouncementSerializer(expected)
-    #     print(response.data)
-    #
-    #     image_path_list = [image['path'] for image in response.data['images']]
-    #
-    #     self.assertEqual(ad_num, Announcement.objects.all().count())
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertNotEqual(response.data, serialized.data)
-    #     # check if received list of image links are all the same as expected
-    #     self.assertEqual(collections.Counter(image_path_list),
-    #                      collections.Counter(SAMPLE_FILE_LIST_MODIFIED))
-    #     # and not equals to the one that was before
-    #     self.assertNotEqual(collections.Counter(unmodified_paths_list),
-    #                         collections.Counter(SAMPLE_FILE_LIST_MODIFIED))
-    #
-    # def test_modify_adv_invalid(self):
-    #     ad_num_before = Announcement.objects.all().count()
-    #     adv = create_adv(title=self.ad_title, category=self.leaf_category,
-    #                      bargain=False, price=5551.55)
-    #     ad_num = Announcement.objects.all().count()
-    #     self.assertEqual(ad_num_before + 1, ad_num)
-    #
-    #     response = self.client.put(
-    #         reverse('adv-detail', kwargs={'pk': adv.id}),
-    #         data=json.dumps(self.invalid_payload),
-    #         content_type='application/json'
-    #     )
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_create_adv_unauth(self):
+
+        ad_num = Announcement.objects.all().count()
+        response = self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        ad_num_after = Announcement.objects.all().count()
+        self.assertEqual(ad_num, ad_num_after)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_adv(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+
+        ad_num = Announcement.objects.count()
+        ad = Announcement.objects.get(title=self.valid_payload['title'])
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        response = self.client.delete(
+            reverse('adv-detail', kwargs={'pk': ad.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(ad_num, Announcement.objects.count() + 1)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_adv_unauth_or_not_author(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+
+        ad_num = Announcement.objects.count()
+        ad = Announcement.objects.get(title=self.valid_payload['title'])
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        self.client.logout()
+
+        response = self.client.delete(
+            reverse('adv-detail', kwargs={'pk': ad.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(ad_num, Announcement.objects.count())
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_authenticate(user=self.another_user)
+
+        response = self.client.delete(
+            reverse('adv-detail', kwargs={'pk': ad.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(ad_num, Announcement.objects.count())
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauth_get_announcement(self):
+        not_bikes_adv = create_adv(title=self.ad_title, category=self.leaf_category,
+                                   bargain=False, price=5551.55)
+        response = self.client.get(
+            reverse('adv-list'),
+        )
+        self.assertEqual(response.data['count'], Announcement.objects.filter(is_active=True).count())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(
+            reverse('adv-detail', kwargs={'pk': not_bikes_adv.id}),
+        )
+
+        expected = Announcement.objects.get(title=not_bikes_adv.title)
+        serialized = AnnouncementSerializer(expected)
+        self.assertEqual(response.data, serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # check if authentication doesnt prevent getting an adv
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.get(
+            reverse('adv-detail', kwargs={'pk': not_bikes_adv.id}),
+        )
+
+        expected = Announcement.objects.get(title=not_bikes_adv.title)
+        serialized = AnnouncementSerializer(expected)
+        self.assertNotEqual(response.data['author_id'], self.another_user.id)
+        self.assertEqual(response.data, serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_modify_adv(self):
+        # as always, create post at first
+        self.client.force_authenticate(user=self.user)
+
+        self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        created_adv = Announcement.objects.get(title=self.valid_payload['title'])
+
+        # Get a list of images, from the object newly created
+        unmodified_paths_list = [image.path for image in created_adv.images.all()]
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': created_adv.id}),
+            data=json.dumps(self.modified_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        image_path_list = [image['path'] for image in response.data['images']]
+
+        self.assertNotEqual(unmodified_paths_list, image_path_list)
+        self.assertEqual(collections.Counter(image_path_list),
+                         collections.Counter(SAMPLE_FILE_LIST_MODIFIED))
+        self.assertEqual(response.data['title'], self.modified_payload['title'])
+
+    def test_modify_adv_unauthenticated(self):
+        self.client.force_authenticate(user=self.user)
+
+        self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        self.client.logout()
+
+        # check if unathenticated user cannot modify ad
+        created_adv = Announcement.objects.get(title=self.valid_payload['title'])
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': created_adv.id}),
+            data=json.dumps(self.modified_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # also check if another author cant modify adv
+        self.client.force_authenticate(user=self.another_user)
+
+        created_adv = Announcement.objects.get(title=self.valid_payload['title'])
+
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': created_adv.id}),
+            data=json.dumps(self.modified_payload),
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
