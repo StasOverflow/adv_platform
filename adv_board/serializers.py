@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import Announcement, Category, ImagePath
+from .models import Announcement, Category, ImagePath, AdvSiteUser
 from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
-# from django.core.validators import ValidationError
 from rest_framework.serializers import ValidationError
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AdvSiteUser
+        fields = ('email', 'username', 'firstname', 'lastname')
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -15,7 +21,6 @@ class ImageSerializer(serializers.ModelSerializer):
 class AnnouncementSerializer(serializers.ModelSerializer):
 
     images = ImageSerializer(many=True)
-    # images = serializers.HyperlinkedRelatedField(many=True, view_name='adv-images', read_only=True)
 
     category = serializers.SlugRelatedField(
         slug_field='name',

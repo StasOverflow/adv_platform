@@ -1,5 +1,5 @@
 [
-    { "model": "auth.user",
+    { "model": "adv_board.advsiteuser",
         "pk": 1,
         "fields": {
             "username": "admin",

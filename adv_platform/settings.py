@@ -40,9 +40,12 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'mptt',
 
     'adv_board',
-    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "adv_board.AdvSiteUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
