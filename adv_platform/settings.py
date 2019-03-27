@@ -40,8 +40,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_swagger',
+
     'rest_framework.authtoken',
+    'django.contrib.sites',
     'rest_auth',
+    'rest_auth.registration',
+    'allauth',
+    'allauth.account',
 
     'mptt',
 
@@ -113,6 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "users.AdvSiteUser"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

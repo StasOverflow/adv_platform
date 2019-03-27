@@ -16,5 +16,4 @@ urlpatterns = [
     path('docs/', schema_view),
     path('', include(router.urls), name='announcements'),
     path('users/', include('users.urls')),
-    path('rest-auth/', include('rest_auth.urls')),
 ]
