@@ -54,6 +54,14 @@ INSTALLED_APPS = [
     'users',
 ]
 
+REST_FRAMEWORK = {
+
+    # Permission settings
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,4 +1,5 @@
 from ..models import Announcement, Category, ImagePath
+from users.models import AdvSiteUser
 from ..serializers import CategorySerializer, AnnouncementSerializer
 
 
@@ -48,7 +49,9 @@ def create_adv(title='Test', category=None,
     if content is None:
         content = LOREM_CONTENT
 
-    new_ann = Announcement.objects.create(title=title, category_id=category.id,
+    user = AdvSiteUser.objects.create(username="Poster", password="123qweff12")
+
+    new_ann = Announcement.objects.create(title=title, category_id=category.id, author_id=user.id,
                                           bargain=bargain, price=price, content=content)
 
     image_list = list()
@@ -59,3 +62,9 @@ def create_adv(title='Test', category=None,
 
     return new_ann
 
+
+def create_user(username, password):
+    user = AdvSiteUser.objects.create_user(username=username, email="user1@test.com", )
+    user.set_password(password)
+    user.save()
+    return user

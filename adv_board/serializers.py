@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Announcement, Category, ImagePath
 from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
 from rest_framework.serializers import ValidationError
+from users.models import AdvSiteUser
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -20,9 +21,17 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         queryset=Category.objects.all(),
      )
 
+    author_id = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+    )
+
+    # # Get the current user from request context
+    # def validate_author_id(self, value):
+    #     return self.context['request'].user
+
     class Meta:
         model = Announcement
-        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images',)
+        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images', 'author_id')
 
     @classmethod
     def images_per_instance_validator(cls, pk, path_list, image_paths, for_update=False):
@@ -59,6 +68,8 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         return images
 
     def create(self, validated_data):
+
+        print(validated_data)
 
         images = validated_data.pop('images')
         obj = Announcement.objects.create(**validated_data)

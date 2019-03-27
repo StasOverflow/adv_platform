@@ -32,6 +32,9 @@ class AnnouncementViewset(viewsets.ModelViewSet):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(author_id=self.request.user.id)
+
     def get_serializer_class(self):
         if self.action == 'images':
             return ImageSerializer
@@ -89,13 +92,16 @@ class CategoryViewset(viewsets.ViewSet):
     leaves:
         Return a list of categories that haven't got any children
     """
+
+    queryset = Category.objects.all()
+
     def list(self, request):
-        queryset = Category.objects.all()
+        queryset = self.queryset
         serializer = CategorySerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = Category.objects.all()
+        queryset = self.queryset
         category = get_object_or_404(queryset, pk=pk)
         serializer = CategorySerializer(category)
         return Response(serializer.data)

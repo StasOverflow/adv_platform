@@ -1,5 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.auth import get_user_model
+from adv_platform.settings import AUTH_USER_MODEL
 
 
 class Category(MPTTModel):
@@ -23,6 +25,10 @@ class Announcement(models.Model):
     category = TreeForeignKey('Category', verbose_name='parent category',
                               related_name='announcements', on_delete=models.SET_NULL,
                               blank=True, null=True)
+    author = models.ForeignKey(
+      AUTH_USER_MODEL,
+      on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.title
