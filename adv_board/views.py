@@ -71,7 +71,6 @@ class AnnouncementViewset(viewsets.ModelViewSet):
         if price_limit is not None:
             try:
                 price_limit = float(price_limit)
-                print(price_limit)
                 queryset = queryset.filter(price__lte=price_limit)
             except Exception as e:
                 pass

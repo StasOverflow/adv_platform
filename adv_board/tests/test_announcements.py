@@ -29,15 +29,23 @@ class BaseViewTest(APITestCase):
 
     def setUp(self):
         # create a new leaf category
-        base_category = Category.objects.filter(lft=F('rght')-1).first()
+        self.base_category = Category.objects.filter(lft=F('rght')-1).first()
         self.test_adv_name = 'Torpedo velosipedo'
-        self.leaf_category = Category.objects.create(name='Vintage Bikes', parent=base_category)
+        self.leaf_category = Category.objects.create(name='Vintage Bikes', parent=self.base_category)
         self.adv = create_adv(title=self.test_adv_name, category=self.leaf_category,
                               bargain=False, price=5551.55)
 
 
 class GetAnnouncementsTest(BaseViewTest):
-
+    """
+    /api/announcements/     adv_board.views.AnnouncementViewset     adv-list
+    /api/announcements/<pk>/        adv_board.views.AnnouncementViewset     adv-detail
+    /api/announcements/<pk>/images/ adv_board.views.AnnouncementViewset     adv-images
+    /api/announcements/<pk>/images\.<format>/       adv_board.views.AnnouncementViewset     adv-images
+    /api/announcements/<pk>\.<format>/      adv_board.views.AnnouncementViewset     adv-detail
+    /api/announcements/all_admin    adv_board.views.AnnouncementListView
+    /api/announcements\.<format>/   adv_board.views.AnnouncementViewset     adv-list
+    """
     def test_get_adv(self):
         response = self.client.get(
             reverse('adv-detail', kwargs={'pk': self.adv.id}),
@@ -74,6 +82,53 @@ class GetAnnouncementsTest(BaseViewTest):
             ad = Announcement.objects.get(category__in=category.get_descendants(include_self=True),
                                           title=self.adv.title)
             self.assertEqual(ad, self.adv)
+
+    def test_announcements_get_by_category(self):
+        """
+        Test category filter
+        """
+        # create one more leaf category and add an adv to it
+        one_more_leaf_category = Category.objects.create(name='Not Bikes', parent=self.base_category)
+        not_bikes_adv = create_adv(title=self.test_adv_name, category=one_more_leaf_category,
+                                   bargain=False, price=5551.55)
+        not_at_all_bikes_adv = create_adv(title='one more', category=one_more_leaf_category,
+                                          bargain=False, price=5551.55)
+        count_total = Announcement.objects.count()
+
+        # now send get request to filter via certain category
+        response = self.client.get(
+            reverse('adv-list'),
+            data={'category': 'Not Bikes'},
+        )
+        self.assertNotEqual(count_total, response.data['count'])
+        self.assertEqual(count_total, response.data['count'] + 1)
+        for item in response.data['results']:
+            self.assertIn(item['title'], (self.test_adv_name, 'one more'))
+            self.assertEqual(item['category'], one_more_leaf_category.name)
+
+    def test_announcements_get_by_price(self):
+        """
+        Text max price_limit filter
+        """
+        # create one more leaf category and add an adv to it
+        adv1 = create_adv(title=self.test_adv_name, category=self.leaf_category,
+                          bargain=False, price=2000)
+        adv2 = create_adv(title='one more', category=self.leaf_category,
+                          bargain=False, price=9000)
+        adv3 = create_adv(title='one more', category=self.leaf_category,
+                          bargain=False, price=6000)
+
+        count_total = Announcement.objects.count()
+
+        # now send get request to filter via price
+        response = self.client.get(
+            reverse('adv-list'),
+            data={'price_limit': 6000.00},
+        )
+
+        self.assertNotEqual(count_total, response.data['count'])
+        for item in response.data['results']:
+            self.assertLessEqual(float(item['price']), 6000.00)
 
 
 class CRUDAnnouncement(APITestCase):

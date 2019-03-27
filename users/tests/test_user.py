@@ -13,23 +13,9 @@ from adv_platform.urls import urlpatterns
 
 class BaseViewTest(APITestCase):
     """
-    /api/categories/        adv_board.views.CategoryViewset category-list
-    /api/categories/<pk>/   adv_board.views.CategoryViewset category-detail
-    /api/categories/<pk>\.<format>/ adv_board.views.CategoryViewset category-detail
-    /api/categories/leaves/ adv_board.views.CategoryViewset category-leaves
-    /api/categories/leaves\.<format>/       adv_board.views.CategoryViewset category-leaves
-    /api/categories\.<format>/      adv_board.views.CategoryViewset category-list
-    /api/docs/      rest_framework_swagger.views.SwaggerSchemaView
-    /api/users/     users.views.UserListView
     /api/users/rest-auth/login/     rest_auth.views.LoginView       rest_login
     /api/users/rest-auth/logout/    rest_auth.views.LogoutView      rest_logout
-    /api/users/rest-auth/password/change/   rest_auth.views.PasswordChangeView      rest_password_change
-    /api/users/rest-auth/password/reset/    rest_auth.views.PasswordResetView       rest_password_reset
-    /api/users/rest-auth/password/reset/confirm/    rest_auth.views.PasswordResetConfirmView        rest_password_reset_confirm
     /api/users/rest-auth/registration/      rest_auth.registration.views.RegisterView       rest_register
-    /api/users/rest-auth/registration/account-confirm-email/<key>/  django.views.generic.base.TemplateView  account_confirm_email
-    /api/users/rest-auth/registration/verify-email/ rest_auth.registration.views.VerifyEmailView    rest_verify_email
-    /api/users/rest-auth/user/      rest_auth.views.UserDetailsView rest_user_details
     """
     client = APIClient()
     fixtures = ('category.json', )
