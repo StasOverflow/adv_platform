@@ -23,6 +23,8 @@ Dev notes:
        $ CREATE USER olxer WITH PASSWORD 'olxer';
        $ GRANT ALL PRIVILEGES ON DATABASE adv_platform TO olxer;
        ~~~
+       (also to remove DB)
+       
    4. Apply migrations (ordering is important!)
        ~~~
        1. $ python manage.py migrate users
