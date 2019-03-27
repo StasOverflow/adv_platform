@@ -24,6 +24,7 @@ Dev notes:
        $ GRANT ALL PRIVILEGES ON DATABASE adv_platform TO olxer;
        ~~~
        (also to remove DB)
+       DROP DATABASE adv_platform;
        
    4. Apply migrations (ordering is important!)
        ~~~
