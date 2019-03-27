@@ -1,14 +1,16 @@
 from rest_framework import serializers
-from .models import Announcement, Category, ImagePath, AdvSiteUser
+from .models import Announcement, Category, ImagePath
 from adv_platform.settings import ANNOUNCEMENT_IMAGE_LIMIT
 from rest_framework.serializers import ValidationError
 
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = AdvSiteUser
-        fields = ('email', 'username', 'firstname', 'lastname')
+# from .models import AdvSiteUser
+#
+#
+# class UserSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = AdvSiteUser
+#         fields = ('email', 'username', 'firstname', 'lastname')
 
 
 class ImageSerializer(serializers.ModelSerializer):
