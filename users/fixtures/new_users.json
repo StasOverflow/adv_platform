@@ -38,5 +38,45 @@
         "groups": [],
         "user_permissions": []
     }
+},
+{
+    "model": "users.advsiteuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$c9LNUj8kecf3$DhEe3KxBsHHqOf7b3Mm4lIXkR6+TNKF0sTV760qKADw=",
+        "last_login": "2019-03-27T19:53:41.837Z",
+        "is_superuser": false,
+        "username": "JohnnyCash",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-03-27T19:52:56.523Z",
+        "firstname": "",
+        "lastname": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.advsiteuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$lJp2qJENewqj$+XIBCNNi7AR5PA7neQoeqIRwemCTMrEqmXXlNJfxgMY=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "SomeOtherCustomer",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-03-27T20:10:37.660Z",
+        "firstname": "",
+        "lastname": "",
+        "groups": [],
+        "user_permissions": []
+    }
 }
 ]

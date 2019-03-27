@@ -1,4 +1,4 @@
-##Advertisement platfrom
+.##Advertisement platfrom
 
 Dev notes: 
     
@@ -40,10 +40,9 @@ Dev notes:
        
    5. Apply fixtures
        ~~~
-       $ python manage.py loaddata superuser
        $ python manage.py loaddata category
+       $ python manage.py loaddata new_users
        $ python manage.py loaddata announcements
-       $ python manage.py loaddata users
        ~~~
 - Run
 
