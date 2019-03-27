@@ -6,7 +6,7 @@ from rest_framework import status
 from ..models import Category
 from ..serializers import CategorySerializer
 from django.db.models import F
-from .test_utils import create_user
+from users.tests.test_utils import create_user
 
 
 class BaseViewTest(APITestCase):
@@ -15,7 +15,6 @@ class BaseViewTest(APITestCase):
 
     def setUp(self):
         self.user = create_user(username='Stas', password='ffaass123123g')
-        self.client = APIClient()
 
 
 class GetCategoriesTest(BaseViewTest):

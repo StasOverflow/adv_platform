@@ -1,6 +1,6 @@
 from ..models import Announcement, Category, ImagePath
-from users.models import AdvSiteUser
 from ..serializers import CategorySerializer, AnnouncementSerializer
+from users.tests.test_utils import create_user
 
 
 SAMPLE_FILE_LIST = (
@@ -49,7 +49,7 @@ def create_adv(title='Test', category=None,
     if content is None:
         content = LOREM_CONTENT
 
-    user = AdvSiteUser.objects.create(username="Poster", password="123qweff12")
+    user = create_user(username="Poster", password="123qweff12")
 
     new_ann = Announcement.objects.create(title=title, category_id=category.id, author_id=user.id,
                                           bargain=bargain, price=price, content=content)
@@ -61,10 +61,3 @@ def create_adv(title='Test', category=None,
     ImagePath.objects.bulk_create(image_list)
 
     return new_ann
-
-
-def create_user(username, password):
-    user = AdvSiteUser.objects.create_user(username=username, email="user1@test.com", )
-    user.set_password(password)
-    user.save()
-    return user

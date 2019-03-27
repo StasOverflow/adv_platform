@@ -8,7 +8,8 @@ from ..serializers import CategorySerializer, AnnouncementSerializer
 from django.db.models import F
 import json
 
-from .test_utils import SAMPLE_FILE_LIST, LOREM_CONTENT, create_adv, SAMPLE_FILE_LIST_MODIFIED, create_user
+from .test_utils import SAMPLE_FILE_LIST, LOREM_CONTENT, create_adv, SAMPLE_FILE_LIST_MODIFIED
+from users.tests.test_utils import create_user
 import collections
 
 

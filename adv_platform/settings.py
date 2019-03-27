@@ -52,6 +52,8 @@ INSTALLED_APPS = [
 
     'adv_board',
     'users',
+
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {
