@@ -69,6 +69,10 @@ Dev notes:
         ~~~
     2. Run tests
     
+        ~~~
+        $ python manage.py test
+        ~~~
+    
 #### To run celery task (set announcement as inactive every 30 days)
 
 1. Make sure you have redis on your machine
