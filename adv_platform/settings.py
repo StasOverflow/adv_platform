@@ -54,11 +54,14 @@ INSTALLED_APPS = [
     'users',
 ]
 
+import rest_framework.permissions
+
 REST_FRAMEWORK = {
 
     # Permission settings
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+
+        'adv_board.permissions.IsAdminOrReadOnly'
     ],
 }
 

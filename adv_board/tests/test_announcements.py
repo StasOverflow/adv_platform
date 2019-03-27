@@ -123,7 +123,7 @@ class CRUDAnnouncement(APITestCase):
             "images": self.image_list
         }
 
-    def test_create_adv(self):
+    def test_create_adv_authenticated(self):
         self.client.force_authenticate(user=self.user)
 
         ad_num = Announcement.objects.all().count()
@@ -162,7 +162,7 @@ class CRUDAnnouncement(APITestCase):
     #     )
     #     serialized = AnnouncementSerializer(expected)
     #     print(response.data)
-
+    #
     #     image_path_list = [image['path'] for image in response.data['images']]
     #
     #     self.assertEqual(ad_num, Announcement.objects.all().count())

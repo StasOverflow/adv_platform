@@ -25,10 +25,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
-    # # Get the current user from request context
-    # def validate_author_id(self, value):
-    #     return self.context['request'].user
-
     class Meta:
         model = Announcement
         fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images', 'author_id')
@@ -69,7 +65,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
 
-        print(validated_data)
+        # print(validated_data)
 
         images = validated_data.pop('images')
         obj = Announcement.objects.create(**validated_data)

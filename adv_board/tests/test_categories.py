@@ -6,6 +6,7 @@ from rest_framework import status
 from ..models import Category
 from ..serializers import CategorySerializer
 from django.db.models import F
+from .test_utils import create_user
 
 
 class BaseViewTest(APITestCase):
@@ -13,7 +14,8 @@ class BaseViewTest(APITestCase):
     fixtures = ('category.json', )
 
     def setUp(self):
-        pass
+        self.user = create_user(username='Stas', password='ffaass123123g')
+        self.client = APIClient()
 
 
 class GetCategoriesTest(BaseViewTest):
@@ -58,6 +60,8 @@ class GetCategoriesTest(BaseViewTest):
         Hit category-related API endpoints one by one, each time using a next
         unsupported method
         """
+        self.user = create_user(username='StanislawOverflow', password='ffaass123123g')
+        self.client = APIClient()
 
         endpoints = (
             reverse("category-leaves", kwargs={}),
@@ -72,6 +76,7 @@ class GetCategoriesTest(BaseViewTest):
             self.client.delete,
         )
 
+        self.client.force_authenticate(user=self.user)
         for endpoint in endpoints:
             for method in unsupported_methods:
                 response = method(endpoint)

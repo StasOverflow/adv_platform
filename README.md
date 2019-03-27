@@ -63,3 +63,11 @@ Dev notes:
         $ ALTER USER olxer CREATEDB;
         ~~~
     2. Run tests
+    
+###NOTES:
+1. Filtering is performed by get request on announcements list, via category name:
+    ~~~
+    http://127.0.0.1:8000/api/announcements/?category=Appliances
+    ~~~
+    the above get request will output all announcements that belongs
+    to Appliances and their subcategories

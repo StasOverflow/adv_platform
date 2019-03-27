@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from django.db.models import F
 from rest_framework.serializers import ValidationError
+from rest_framework import permissions
+from .permissions import IsOwnerOrReadOnly
 
 
 class AnnouncementViewset(viewsets.ModelViewSet):
@@ -16,6 +18,11 @@ class AnnouncementViewset(viewsets.ModelViewSet):
 
     list:
         Return a list of all announcements.
+        possible arguments:
+            category; Any of category names on site
+            price_limit: any price limit
+                :return: announcements with a price less
+                         or equals to given
 
     create:
         Create a new announcement.
@@ -29,8 +36,36 @@ class AnnouncementViewset(viewsets.ModelViewSet):
     partial_update:
         Update an announcement.
     """
-    queryset = Announcement.objects.all()
+    # queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned query to a given category and its
+        subcategories by filtering against a `category` query parameter in the URL.
+        """
+        queryset = Announcement.objects.all()
+
+        category = self.request.query_params.get('category', None)
+        if category is not None:
+            category = Category.objects.get(name=category)
+            queryset = queryset.filter(category__in=category.get_descendants(include_self=True))
+
+        """
+        Optionally restricts the returned query to a given price limit
+        """
+        price_limit = self.request.query_params.get('price_limit', None)
+
+        if price_limit is not None:
+            try:
+                price_limit = float(price_limit)
+                print(price_limit)
+                queryset = queryset.filter(price__lte=price_limit)
+            except Exception as e:
+                pass
+
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(author_id=self.request.user.id)
@@ -52,9 +87,9 @@ class AnnouncementViewset(viewsets.ModelViewSet):
         delete:
             Delete a whole list of images for a certain announcement
         """
-        if Announcement.objects.get(id=kwargs['pk']):
+        if self.queryset.get(id=kwargs['pk']):
             if request.method == 'GET':
-                queryset = ImagePath.objects.filter(announcement_id=kwargs['pk'])
+                queryset = self.queryset.filter(announcement_id=kwargs['pk'])
                 serializer = ImageSerializer(queryset, many=True)
                 return Response(serializer.data)
 
