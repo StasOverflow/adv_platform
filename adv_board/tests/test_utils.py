@@ -26,17 +26,16 @@ SAMPLE_FILE_LIST_MODIFIED = (
 )
 
 
-LOREM_CONTENT = '''Lorem ipsum dolor sit amet, consectetur adipiscing 
-                     elit. Quisque accumsan ullamcorper leo. Nullam malesuada 
-                     elit et laoreet consectetur. Proin sodales ullamcorper 
-                     laoreet. Mauris magna ligula, volutpat non est in, sodales 
-                     porta mauris. Fusce a convallis mi. Quisque rutrum nisl 
-                     quis imperdiet consequat. Nunc efficitur metus sed faucibus 
-                     dignissim. Donec pulvinar iaculis pharetra. Pellentesque habitant
-                     morbi tristique senectus et netus et malesuada fames ac turpis 
-                     egestas. Cras mauris lorem, tempus vitae metus nec, imperdiet 
-                     hendrerit nisi. Ut posuere cursus accumsan. Sed eget euismod tellus
-                     '''
+LOREM_CONTENT = "Lorem ipsum dolor sit amet, consectetur adipiscing " \
+                "elit. Quisque accumsan ullamcorper leo. Nullam malesuada " \
+                "elit et laoreet consectetur. Proin sodales ullamcorper" \
+                "laoreet. Mauris magna ligula, volutpat non est in, sodales " \
+                "porta mauris. Fusce a convallis mi. Quisque rutrum nisl " \
+                "quis imperdiet consequat. Nunc efficitur metus sed faucibus" \
+                " dignissim. Donec pulvinar iaculis pharetra. Pellentesque habitant " \
+                "morbi tristique senectus et netus et malesuada fames ac turpis " \
+                "egestas. Cras mauris lorem, tempus vitae metus nec, imperdiet " \
+                "hendrerit nisi. Ut posuere cursus accumsan. Sed eget euismod tellus"
 
 
 def create_adv(title='Test', category=None,

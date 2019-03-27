@@ -1,0 +1,167 @@
+[
+{
+    "model": "adv_board.announcement",
+    "pk": 1,
+    "fields": {
+        "title": "Futbolochka",
+        "content": "Prodam fulbolku (ili garaj) eto voobwe chitat ne nado",
+        "price": "20.00",
+        "bargain": true,
+        "created_on": "2019-03-27T19:56:04.062Z",
+        "category": 14,
+        "author": 2,
+        "last_modified": "2019-03-27T19:56:04.062Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 2,
+    "fields": {
+        "title": "Velosiped prodaetsia",
+        "content": "lorem crapsum, lazy text",
+        "price": "600.00",
+        "bargain": true,
+        "created_on": "2019-03-27T19:57:20.377Z",
+        "category": 13,
+        "author": 3,
+        "last_modified": "2019-03-27T19:57:20.377Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 3,
+    "fields": {
+        "title": "Eto fitness, baby",
+        "content": "This ad should not be displayed, when filtering via bikes or clothes, because this ad belongs to their parent category, alltough reverse scenario should work",
+        "price": "0.20",
+        "bargain": false,
+        "created_on": "2019-03-27T19:58:50.308Z",
+        "category": 12,
+        "author": 2,
+        "last_modified": "2019-03-27T20:01:07.093Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 4,
+    "fields": {
+        "title": "Hlebopechka",
+        "content": "Sounds just like Vodokachka",
+        "price": "0.01",
+        "bargain": true,
+        "created_on": "2019-03-27T20:08:12.301Z",
+        "category": 2,
+        "author": 2,
+        "last_modified": "2019-03-27T20:08:12.301Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 5,
+    "fields": {
+        "title": "Prodam garaj",
+        "content": "tut mojno khranit mashini, photo net",
+        "price": "20000.00",
+        "bargain": true,
+        "created_on": "2019-03-27T20:08:58.690Z",
+        "category": null,
+        "author": 3,
+        "last_modified": "2019-03-27T20:08:58.690Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 6,
+    "fields": {
+        "title": "Nokia3310",
+        "content": "Still works",
+        "price": "20.00",
+        "bargain": false,
+        "created_on": "2019-03-27T20:09:42.717Z",
+        "category": 20,
+        "author": 3,
+        "last_modified": "2019-03-27T20:09:42.717Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 7,
+    "fields": {
+        "title": "PEKA DLIA IGOREI",
+        "content": "intel Core Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan ullamcorper leo. Nullam malesuada elit et laoreet consectetur. Proin sodales ullamcorper laoreet. Mauris magna ligula, volutpat non est in, sodales porta mauris. Fusce a convallis mi. Quisque rutrum nisl quis imperdiet consequat. Nunc efficitur metus sed faucibus dignissim. Donec pulvinar iaculis pharetra. Pellentesque habitan morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras mauris lorem, tempus vitae metus nec, imperdiet hendrerit nisi. Ut posuere cursus accumsan. Sed eget euismod tellus",
+        "price": "200.00",
+        "bargain": false,
+        "created_on": "2019-03-27T20:15:18.368Z",
+        "category": 17,
+        "author": 4,
+        "last_modified": "2019-03-27T20:15:18.368Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 8,
+    "fields": {
+        "title": "Smartphone",
+        "content": "A very cool smartphone",
+        "price": "611.00",
+        "bargain": false,
+        "created_on": "2019-03-27T20:16:30.326Z",
+        "category": 20,
+        "author": 4,
+        "last_modified": "2019-03-27T20:16:30.326Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 9,
+    "fields": {
+        "title": "Shtani",
+        "content": "Shtani",
+        "price": "40.00",
+        "bargain": false,
+        "created_on": "2019-03-27T20:17:11.027Z",
+        "category": 14,
+        "author": 3,
+        "last_modified": "2019-03-27T20:17:11.028Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 10,
+    "fields": {
+        "title": "Velik, kotoriy stoit na kuhne",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla commodo lacus id erat imperdiet interdum. Nullam malesuada sem at odio placerat accumsan. Donec porttitor enim dolor, eu varius ex sollicitudin in. Praesent sollicitudin massa a mi aliquet, non pharetra nulla fringilla. Sed pellentesque vel nisi in dignissim. Aenean lobortis mi eu diam egestas, ac faucibus dui finibus. Donec quis orci venenatis, dapibus urna non, rhoncus arcu. Nulla volutpat erat elit, in lacinia augue vestibulum at. Nullam turpis nulla, dignissim ut semper ut, ultrices eu massa. Vestibulum at turpis felis. Etiam ut enim ut risus pellentesque faucibus. Nulla blandit vestibulum malesuada. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\r\n\r\nCurabitur non risus gravida enim pellentesque venenatis ac a eros. Sed et interdum quam. Duis sed ante ac tortor laoreet mollis sit amet non leo. Pellentesque volutpat mattis purus, sit amet blandit ligula laoreet quis. Maecenas venenatis augue felis, dignissim iaculis turpis fermentum ut. In ullamcorper ligula nunc, vitae mollis urna laoreet non. Praesent ultricies dui nec ex consequat ornare.\r\n\r\nSed a sem quis dolor varius ultricies. In ut justo tincidunt arcu interdum ornare. Mauris dapibus ante vitae sollicitudin sollicitudin. Praesent ut justo tincidunt, malesuada neque id, scelerisque nisl. Vestibulum pretium tristique est a sagittis. Ut vitae sagittis nisl. Maecenas rutrum nulla sed mattis scelerisque. Vestibulum est enim, bibendum lacinia eleifend vel, varius at enim. Quisque ac accumsan nulla. Mauris venenatis dapibus tristique. Fusce sagittis nisl elementum magna semper, eu varius ipsum viverra. Sed faucibus vel neque vel ultrices. Nunc et ligula nisi. Donec a euismod urna. Praesent volutpat ipsum id mi semper, non laoreet diam sollicitudin.\r\n\r\nDonec commodo egestas urna, eget rutrum est consectetur at. Phasellus eu efficitur tortor, vel sagittis mauris. Maecenas vel laoreet justo, at suscipit mi. Fusce vehicula purus id feugiat aliquet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin eu risus et erat mollis molestie sed sit amet magna. Morbi lacus libero, placerat quis dictum id, convallis vel lorem.",
+        "price": "2000.00",
+        "bargain": true,
+        "created_on": "2019-03-27T20:24:00.322Z",
+        "category": 5,
+        "author": 2,
+        "last_modified": "2019-03-27T20:24:00.322Z",
+        "is_active": true
+    }
+},
+{
+    "model": "adv_board.announcement",
+    "pk": 11,
+    "fields": {
+        "title": "Muzika, kak ona est",
+        "content": "eto music",
+        "price": "0.01",
+        "bargain": true,
+        "created_on": "2019-03-27T20:25:01.360Z",
+        "category": 22,
+        "author": 2,
+        "last_modified": "2019-03-27T20:25:01.360Z",
+        "is_active": true
+    }
+}
+]

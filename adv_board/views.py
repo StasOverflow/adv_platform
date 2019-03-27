@@ -60,8 +60,11 @@ class AnnouncementViewset(viewsets.ModelViewSet):
 
         category = self.request.query_params.get('category', None)
         if category is not None:
-            category = Category.objects.get(name=category)
-            queryset = queryset.filter(category__in=category.get_descendants(include_self=True))
+            try:
+                category = Category.objects.get(name=category)
+                queryset = queryset.filter(category__in=category.get_descendants(include_self=True))
+            except:
+                pass
 
         """
         Optionally restricts the returned query to a given price limit

@@ -37,8 +37,10 @@ Dev notes:
        
    5. Apply fixtures
        ~~~
-       $ python manage.py loaddata superuser.json
-       $ python manage.py loaddata category.json
+       $ python manage.py loaddata superuser
+       $ python manage.py loaddata category
+       $ python manage.py loaddata announcements
+       $ python manage.py loaddata users
        ~~~
 - Run
 

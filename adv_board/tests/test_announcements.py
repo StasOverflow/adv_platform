@@ -142,6 +142,11 @@ class CRUDAnnouncement(APITestCase):
         for image in SAMPLE_FILE_LIST_MODIFIED:
             self.image_list_modified.append({'path': image})
 
+        self.image_list_overflowed = list()
+        for image in SAMPLE_FILE_LIST_MODIFIED:
+            self.image_list_overflowed.append({'path': image})
+            self.image_list_overflowed.append({'path': image})
+
         self.ad_title = "gourge lukas"
 
         self.valid_payload = {
@@ -170,6 +175,17 @@ class CRUDAnnouncement(APITestCase):
             "category": self.leaf_category.name,
             "images": self.image_list
         }
+
+    def test_adv_create_invalid(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.invalid_payload),
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_adv_authenticated(self):
         self.client.force_authenticate(user=self.user)
@@ -341,4 +357,38 @@ class CRUDAnnouncement(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_modify_adv_too_many_images(self):
+        self.client.force_authenticate(user=self.user)
+
+        self.client.post(
+            reverse('adv-list'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+
+        # check if unathenticated user cannot modify ad
+        # created_adv = Announcement.objects.get(title=self.valid_payload['title'])
+        # response = self.client.put(
+        #     reverse('adv-detail', kwargs={'pk': created_adv.id}),
+        #     data=json.dumps(self.modified_payload),
+        #     content_type='application/json'
+        # )
+        # self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        #
+        # # also check if another author cant modify adv
+        # self.client.force_authenticate(user=self.another_user)
+
+        created_adv = Announcement.objects.get(title=self.valid_payload['title'])
+
+        new_payload = self.modified_payload
+        new_payload['images'] = self.image_list_overflowed
+
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': created_adv.id}),
+            data=json.dumps(new_payload),
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
