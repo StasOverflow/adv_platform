@@ -9,6 +9,7 @@ from django.db.models import F
 import json
 
 from .test_utils import SAMPLE_FILE_LIST, LOREM_CONTENT, create_adv, SAMPLE_FILE_LIST_MODIFIED
+import collections
 
 
 class BaseViewTest(APITestCase):
@@ -35,11 +36,27 @@ class BaseViewTest(APITestCase):
 
 
 class GetAnnouncementsTest(BaseViewTest):
-    """
-    Ensure that we can access a single announcement via its category,
-    as well as via parent categories of its category
-    """
+
+    def test_get_adv(self):
+        response = self.client.get(
+            reverse('adv-detail', kwargs={'pk': self.adv.id}),
+        )
+        expected = Announcement.objects.get(title=self.test_adv_name)
+        serialized = AnnouncementSerializer(expected)
+        self.assertEqual(response.data, serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_adv_invalid(self):
+        response = self.client.get(
+            reverse('adv-detail', kwargs={'pk': self.adv.id+300}),
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_announcement_parent_categories(self):
+        """
+        Ensure that we can access a single announcement via its category,
+        as well as via parent categories of its category
+        """
         response = self.client.get(
             reverse('adv-detail', kwargs={'pk': self.adv.id}),
         )
@@ -58,7 +75,7 @@ class GetAnnouncementsTest(BaseViewTest):
             self.assertEqual(ad, self.adv)
 
 
-class CreateNewAnnouncement(APITestCase):
+class CRUDAnnouncement(APITestCase):
     """
     Ensure that all crud operations for announcement works
     """
@@ -93,12 +110,12 @@ class CreateNewAnnouncement(APITestCase):
             "price": 2005,
             "bargain": True,
             "category": self.leaf_category.name,
-            "images": self.image_list
+            "images": self.image_list_modified
         }
 
         self.invalid_payload = {
             "title": "",
-            "content": "impossibly dumb contentx2",
+            "content": "impossibly dumb content x2",
             "price": 0,
             "bargain": False,
             "category": self.leaf_category.name,
@@ -127,40 +144,41 @@ class CreateNewAnnouncement(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_modify_adv(self):
+        ad_num_before = Announcement.objects.all().count()
         adv = create_adv(title=self.ad_title, category=self.leaf_category,
                          bargain=False, price=5551.55)
+        unmodified_paths_list = [image.path for image in adv.images.all()]
         expected = Announcement.objects.get(title=self.ad_title)
         ad_num = Announcement.objects.all().count()
+        self.assertEqual(ad_num_before + 1, ad_num)
         response = self.client.put(
             reverse('adv-detail', kwargs={'pk': adv.id}),
             data=json.dumps(self.modified_payload),
             content_type='application/json'
         )
-        self.assertEqual(ad_num, Announcement.objects.all().count())
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # serialized = AnnouncementSerializer(expected)
-        # self.assertEqual(response.data, serialized.data)
-        # print(Announcement.objects.get(title=self.ad_title))
+        serialized = AnnouncementSerializer(expected)
+        image_path_list = [image['path'] for image in response.data['images']]
 
-    # def test_create_new_adv_successful(self):
-    #     ad_num = Announcement.objects.all().count()
-    #     test_ad = create_adv(category=self.leaf_category)
-    #     # {
-    #     #     "title": "string",
-    #     #     "content": "string",
-    #     #     "price": 0,
-    #     #     "bargain": true,
-    #     #     "category": "string",
-    #     #     "images": [
-    #     #         "string"
-    #     #     ]
-    #     # }
-    #     response = self.client.post(
-    #         reverse('adv-list', kwargs={'title': 'crud added'})
-    #     )
-    #
-    #     print(response.data)
-    #     self.assertEqual(ad_num + 1, Announcement.objects.all().count())
-    #
-    #     response = self.client.post
-    # pass
+        self.assertEqual(ad_num, Announcement.objects.all().count())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertNotEqual(response.data, serialized.data)
+        # check if received list of image links are all the same as expected
+        self.assertEqual(collections.Counter(image_path_list),
+                         collections.Counter(SAMPLE_FILE_LIST_MODIFIED))
+        # and not equals to the one that was before
+        self.assertNotEqual(collections.Counter(unmodified_paths_list),
+                            collections.Counter(SAMPLE_FILE_LIST_MODIFIED))
+
+    def test_modify_adv_invalid(self):
+        ad_num_before = Announcement.objects.all().count()
+        adv = create_adv(title=self.ad_title, category=self.leaf_category,
+                         bargain=False, price=5551.55)
+        ad_num = Announcement.objects.all().count()
+        self.assertEqual(ad_num_before + 1, ad_num)
+
+        response = self.client.put(
+            reverse('adv-detail', kwargs={'pk': adv.id}),
+            data=json.dumps(self.invalid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

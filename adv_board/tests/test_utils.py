@@ -14,14 +14,14 @@ SAMPLE_FILE_LIST = (
 )
 
 SAMPLE_FILE_LIST_MODIFIED = (
-    'https://farm3.staticflickr.cogggm/2912/13981352255_fc59cfdba2_b.jpg',
-    'https://homepages.cae.wisc.ed123u/~ece533/images/airplane.png',
-    'https://homepages.cae.wisc.e123du/~ece533/images/arctichare.png',
-    'https://homepages.cae.wisc.edu/~ece533/imaggges/baboon.png',
-    'https://homepages.cae.wisc.edu/~ece533/imagbaaes/boat.png',
-    'https://homepages.cae.wisc.edu/~ece533/imhhages/sails.png',
-    'https://homepages.cae.wisc.edu/~ece533/imagves/monarch.png',
-    'https://homepages.cae.wisc.edu/~ece533/imag1es/peppers.png'
+    'https://farm3.staticflickr.com/2912/12312313981352255_fc59cfdba2_b.jpg',
+    'https://homepages.cae.wisc.edu/~ece533/123123images/airplane.png',
+    'https://homepages.cae.wisc.edu/~ece533/12images/arctichare.png',
+    'https://homepages.cae.wisc.edu/~ece533/1imaggges/baboon.png',
+    'https://homepages.cae.wisc.edu/~ece533/123123imagbaaes/boat.png',
+    'https://homepages.cae.wisc.edu/~ece533/12imhhages/sails.png',
+    'https://homepages.cae.wisc.edu/~ece533/1imagves/monarch.png',
+    'https://homepages.cae.wisc.edu/~ece533/gggimag1es/peppers.png'
 )
 
 
