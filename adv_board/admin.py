@@ -15,7 +15,7 @@ class AnnouncementAdmin(admin.ModelAdmin):
         ImagePathAdmin,
     ]
 
-    list_display = ('title', 'content', 'price', 'bargain', "created_on", "category",)
+    list_display = ('title', 'content', 'price', 'bargain', "created_on", "category", "is_active", "last_modified")
 
 
 admin.site.register(Announcement, AnnouncementAdmin)

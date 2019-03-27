@@ -28,7 +28,7 @@ Dev notes:
        1. $ python manage.py migrate users
        2. $ python manage.py migrate allauth
        3. $ python manage.py migrate adv_board
-       4. $ python manage.py migrate 
+       5. $ python manage.py migrate 
        ~~~
        to unapply migrations, run:
        ~~~
@@ -64,3 +64,8 @@ Dev notes:
         $ ALTER USER olxer CREATEDB;
         ~~~
     2. Run tests
+    
+### To run celery task (set announcement as inactive every 30 days)
+
+1. Make sure you have redis on your machine
+2. run celery -A adv_board worker --loglevel=info -B

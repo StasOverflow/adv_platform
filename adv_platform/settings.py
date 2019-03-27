@@ -131,6 +131,9 @@ AUTH_USER_MODEL = "users.AdvSiteUser"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+CELERY_BROKER_URL = 'redis://localhost'
+CELERY_RESULT_BACKEND = 'redis://localhost'
+
 SITE_ID = 1
 
 # Internationalization
