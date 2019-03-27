@@ -23,10 +23,17 @@ Dev notes:
        $ CREATE USER olxer WITH PASSWORD 'olxer';
        $ GRANT ALL PRIVILEGES ON DATABASE adv_platform TO olxer;
        ~~~
-   4. Apply migrations
+   4. Apply migrations (ordering is important!)
        ~~~
-       $ python manage.py migrate
+       1. $ python manage.py migrate users
+       2. $ python manage.py migrate adv_board
+       3. $ python manage.py migrate 
        ~~~
+       to unapply migrations, run:
+       ~~~
+       $ python manage.py migrate adv_board zero
+       ~~~
+       
    5. Apply fixtures
        ~~~
        $ python manage.py loaddata superuser.json

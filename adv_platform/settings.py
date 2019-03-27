@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'mptt',
 
     'adv_board',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = "adv_board.AdvSiteUser"
+AUTH_USER_MODEL = "users.AdvSiteUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
