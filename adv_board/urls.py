@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AnnouncementViewset, CategoryViewset
+from .views import AnnouncementViewset, CategoryViewset, AnnouncementListView
 # from .views import UserListView
 from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
@@ -15,5 +15,6 @@ router.register(r'categories', CategoryViewset, basename='category')
 urlpatterns = [
     path('docs/', schema_view),
     path('', include(router.urls), name='announcements'),
+    path('announcements/all_admin', AnnouncementListView.as_view()),
     path('users/', include('users.urls')),
 ]

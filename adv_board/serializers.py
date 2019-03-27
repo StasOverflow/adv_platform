@@ -27,7 +27,8 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ('id', 'title', 'content', 'price', 'bargain', 'created_on', 'category', 'images', 'author_id')
+        fields = ('id', 'is_active', 'title', 'content', 'price', 'bargain', 'created_on',
+                  'category', 'images', 'author_id', 'last_modified')
 
     @classmethod
     def images_per_instance_validator(cls, pk, path_list, image_paths, for_update=False):

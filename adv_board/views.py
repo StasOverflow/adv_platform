@@ -11,18 +11,29 @@ from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
 
 
+class AnnouncementListView(generics.ListAPIView):
+    """
+    Returns a list of all despite its status, available only for adminuser
+    """
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
 class AnnouncementViewset(viewsets.ModelViewSet):
     """
     retrieve:
         Return a specific announcement
 
     list:
-        Return a list of all announcements.
+        Return a list of ACTIVE announcements.
         possible arguments:
-            category; Any of category names on site
+
+            category: Any of category names on site
+
             price_limit: any price limit
-                :return: announcements with a price less
-                         or equals to given
+                expected output: announcements with a price less or equals to given
 
     create:
         Create a new announcement.
@@ -45,7 +56,7 @@ class AnnouncementViewset(viewsets.ModelViewSet):
         Optionally restricts the returned query to a given category and its
         subcategories by filtering against a `category` query parameter in the URL.
         """
-        queryset = Announcement.objects.all()
+        queryset = Announcement.objects.filter(is_active=True)
 
         category = self.request.query_params.get('category', None)
         if category is not None:

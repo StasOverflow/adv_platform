@@ -26,8 +26,9 @@ Dev notes:
    4. Apply migrations (ordering is important!)
        ~~~
        1. $ python manage.py migrate users
-       2. $ python manage.py migrate adv_board
-       3. $ python manage.py migrate 
+       2. $ python manage.py migrate allauth
+       3. $ python manage.py migrate adv_board
+       4. $ python manage.py migrate 
        ~~~
        to unapply migrations, run:
        ~~~
@@ -63,11 +64,3 @@ Dev notes:
         $ ALTER USER olxer CREATEDB;
         ~~~
     2. Run tests
-    
-###NOTES:
-1. Filtering is performed by get request on announcements list, via category name:
-    ~~~
-    http://127.0.0.1:8000/api/announcements/?category=Appliances
-    ~~~
-    the above get request will output all announcements that belongs
-    to Appliances and their subcategories

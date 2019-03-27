@@ -54,15 +54,14 @@ INSTALLED_APPS = [
     'users',
 ]
 
-import rest_framework.permissions
-
 REST_FRAMEWORK = {
 
     # Permission settings
     'DEFAULT_PERMISSION_CLASSES': [
-
         'adv_board.permissions.IsAdminOrReadOnly'
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
 }
 
 MIDDLEWARE = [
