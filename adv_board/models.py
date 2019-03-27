@@ -2,6 +2,8 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth import get_user_model
 from adv_platform.settings import AUTH_USER_MODEL
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 
 class Category(MPTTModel):
@@ -19,7 +21,7 @@ class Category(MPTTModel):
 class Announcement(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     content = models.TextField(max_length=5000)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     bargain = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     category = TreeForeignKey('Category', verbose_name='parent category',

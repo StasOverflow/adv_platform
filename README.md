@@ -65,7 +65,18 @@ Dev notes:
         ~~~
     2. Run tests
     
-### To run celery task (set announcement as inactive every 30 days)
+#### To run celery task (set announcement as inactive every 30 days)
 
 1. Make sure you have redis on your machine
 2. run celery -A adv_board worker --loglevel=info -B
+
+
+#### More notes:
+
+Credentials for site users are:
+
+1. log: Customer
+  pass: olxerolxer123
+   
+2. log: JohnnyCash
+  pass: mancomesAround1948
