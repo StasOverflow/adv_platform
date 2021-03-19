@@ -16,7 +16,7 @@ django-mptt==0.9.1
 django-rest-auth==0.9.3
 django-rest-swagger==2.2.0
 django-stubs==0.10.2
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 djangorestframework-stubs==0.4.1
 idna==2.8
 itypes==1.1.0
